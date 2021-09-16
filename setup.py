@@ -25,7 +25,7 @@ setup(
     # packages=['function_scheduling_distributed_framework'], # 这样内层级文件夹的没有打包进去。
     include_package_data=True,
     platforms=["all"],
-    url='https://github.com/ydf0509/distributed_framework',
+    url='https://github.com/ydf0509/sync2asyncio',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Operating System :: OS Independent',
