@@ -117,7 +117,7 @@ r = await  simple_run_in_executor(block_fun, 20)，既能在线程池运行同�
 
 ```
 
-![img_1.png](img_1.png)
+[![4mxQOK.png](https://z3.ax1x.com/2021/09/16/4mxQOK.png)](https://imgtu.com/i/4mxQOK)
 
 ```
  
@@ -154,3 +154,14 @@ run_in_executor 是在异步环境（被async修饰的异步函数）里面，�
 asyncio包的future对象是一个asyncio包的awaitable对象，所以可以被await，concurrent.futures.Future对象不能被await。
 ```
 
+[![4mvIJA.png](https://z3.ax1x.com/2021/09/16/4mvIJA.png)](https://imgtu.com/i/4mvIJA)
+
+
+##### 运行结果，从打印 开始到 打印结束只用了6秒
+```
+虽然block_fun同步函数里面需要阻塞5秒，但使用了 simple_run_in_executor 来执行这个同步阻塞函数，
+
+虽然运行了十几个协程任务，不会造成整体整体运行时间延长。
+
+如果不使用 simple_run_in_executor 来运行 block_fun，运行完这十几个协程任务最起码需要1分钟以上。
+```
