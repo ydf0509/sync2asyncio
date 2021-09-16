@@ -65,7 +65,7 @@ if __name__ == '__main__':
         await asyncio.sleep(1)  # # 如果你这么写  time.sleep(1)  那就完了个蛋，程序运行完成需要更长的时间。
         r = await  simple_run_in_executor(block_fun, xx)  # # 如果你这么写  r = block_fun(xx)   那就完了个蛋，程序运行完成需要更长的时间。
         print(r)
-        resp = await  simple_run_in_executor(requests.get, url='http://www.baidu.com')
+        resp = await  simple_run_in_executor(requests.get, url='http://www.baidu.com', timeout=5)
         # 如果你这么写  resp = requests.get( url='http://www.baidu.com')   那就完了个蛋，如果网站每次响应时间很大会发生严重影响，程序运行完成需要更长的时间。
         # 这个是调用了同步requests请求库，如果同步库请求一个网站需要10秒响应，asyncio中如果直接使用了同步库，会发生灭顶之灾，整个loop就成了废物。如果网站每次响应是1毫秒，那么异步中调用同步库还可以勉强接受的。
         # 但用 simple_run_in_executor来运行requests 即使网站响应时间很长，也不会对asyncio的loop产生严重阻塞影响了，这就是 simple_run_in_executor 要达到的目的。
