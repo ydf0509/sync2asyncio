@@ -34,6 +34,7 @@ async def simple_run_in_executor(f, *args, async_loop=None, threadpool_executor=
     第3个特点是最重要的提高了易用性的地方。使用了整体偏函数把所有入参和函数生成一个偏函数，进而解决了官方只支持位置入参，不支持关键字入参的，
     当函数入参达到几十个时候，例如requests.get 如果你想设置timeout参数，如果不支持关键字入参，你需要把timeout参数之前的其他不重要参数全都传递一遍使用默认None来占位。
     函数入参个数比较多的情况下，不支持关键字入参就会很容易导致传参错误。
+    不理解这个的话，你可以用原生的 run_in_executor 方法来设置requests.get函数的timeout，难度非常大。
 
 
     :param f: 任意同步阻塞函数，是非 async def的函数
@@ -122,6 +123,7 @@ r = await  simple_run_in_executor(block_fun, 20)，既能在线程池运行同�
  
 run_in_executor必须严格的按照顺序传参，例如你想设置request的timeout值，必须在前面写很多个None来占位置；
 还有例如不能把headers写在data前面，不支持关键字方式入参，很难用。使用偏函数来解决关键字入参是官方教程推荐的方式。
+不理解这个的话，你可以用原生的 run_in_executor 方法来设置requests.get函数的timeout，难度非常之大。
 ```
 参考链接  https://docs.python.org/zh-cn/3/library/asyncio-eventloop.html#asyncio.loop.run_in_executor
 
