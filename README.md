@@ -123,7 +123,9 @@ r = await  simple_run_in_executor(block_fun, 20)，既能在线程池运行同�
  
 run_in_executor必须严格的按照顺序传参，例如你想设置request的timeout值，必须在前面写很多个None来占位置；
 还有例如不能把headers写在data前面，不支持关键字方式入参，很难用。使用偏函数来解决关键字入参是官方教程推荐的方式。
-不理解这个的话，你可以用原生的 run_in_executor 方法来设置requests.get函数的timeout，难度非常之大。
+
+不理解这个的话，你可以用原生的 run_in_executor 方法来设置requests.get函数的timeout，难度非常之大，
+如果是设置verify参数难上加难，越靠后的参数越难传参正确。
 ```
 参考链接  https://docs.python.org/zh-cn/3/library/asyncio-eventloop.html#asyncio.loop.run_in_executor
 
