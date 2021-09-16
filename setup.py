@@ -7,7 +7,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='sync2asyncio',  #
-    version=0.1,
+    version=0.2,
     description=(
         'convert sync to asyncio '
     ),
@@ -55,7 +55,7 @@ python setup.py sdist upload -r pypi
 
 # python setup.py bdist_wheel
 python setup.py bdist_wheel & twine upload dist/function_scheduling_distributed_framework-11.7-py3-none-any.whl
-python setup.py sdist & twine upload dist/sync2asyncio-0.1.tar.gz
+python setup.py sdist & twine upload dist/sync2asyncio-0.2.tar.gz
 
 
 
