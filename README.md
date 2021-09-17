@@ -2,6 +2,12 @@
 
 ```
 使任意同步库快速变asyncio异步语法的方式 ，simple_run_in_executor
+
+这是一个异步对象Asyncio的Future了，可以被await和异步任务编排。
+
+await simple_run_in_executor(requests.get, url='http://www.baidu.com')  # 等效 await aiohttp.request('get',url)
+await simple_run_in_executor(time.sleep, 5')                            # 等效 await asyncio,sleep(1)
+
 ```
 
 # 1 安装
