@@ -34,7 +34,6 @@ async def simple_run_in_executor(f, *args, async_loop=None, threadpool_executor=
     第3个特点是最重要的提高了易用性的地方。使用了整体偏函数把所有入参和函数生成一个偏函数，进而解决了官方只支持位置入参，不支持关键字入参的，
     当函数入参达到几十个时候，例如requests.get 如果你想设置timeout参数，如果不支持关键字入参，你需要把timeout参数之前的其他不重要参数全都传递一遍使用默认None来占位。
     函数入参个数比较多的情况下，不支持关键字入参就会很容易导致传参错误。
-    不理解这个的话，你可以用原生的 run_in_executor 方法来设置requests.get函数的timeout，难度非常大。
 
 
     :param f: 任意同步阻塞函数，是非 async def的函数
@@ -64,6 +63,7 @@ if __name__ == '__main__':
 
     async def enter_fun(xx):  # 入口函数，因为为一旦异步，必须处处异步。不能直接调用block_fun，否则阻塞其他任务。
         await asyncio.sleep(1)  # # 如果你这么写  time.sleep(1)  那就完了个蛋，程序运行完成需要更长的时间。
+        await simple_run_in_executor(time.sleep,1)  # 如果世上没有asyncio.sleep异步函数，那么可以这么做。
         r = await  simple_run_in_executor(block_fun, xx)  # # 如果你这么写  r = block_fun(xx)   那就完了个蛋，程序运行完成需要更长的时间。
         print(r)
         resp = await  simple_run_in_executor(requests.get, url='http://www.baidu.com', timeout=5)
@@ -94,7 +94,6 @@ if __name__ == '__main__':
 
 [![4mvIJA.png](https://z3.ax1x.com/2021/09/16/4mvIJA.png)](https://imgtu.com/i/4mvIJA)
 
-
 ##### 运行结果，从打印 开始到 打印结束只用了6秒
 
 ```
@@ -109,6 +108,7 @@ if __name__ == '__main__':
 ```
 
 # 3 介绍作用
+
 ```
 使用asyncio时候，一个调用链流程包括了5个 阻塞io的方法或函数，如果其中一个函数现在没有对应的异步库，或者新的对应异步库很难学，
 快速的方式是让同步函数变成异步调用语法，可以被await，那么按上面这么封装就行了，例如假设还没有人发明aiohttp库，
@@ -143,6 +143,7 @@ run_in_executor必须严格的按照顺序传参，例如你想设置request的t
 不理解这个的话，你可以用原生的 run_in_executor 方法来设置requests.get函数的timeout，难度非常之大，
 如果是设置verify参数难上加难，越靠后的参数越难传参正确。
 ```
+
 参考链接  https://docs.python.org/zh-cn/3/library/asyncio-eventloop.html#asyncio.loop.run_in_executor
 
 ```
@@ -159,8 +160,6 @@ run_in_executor 到底是协程程运行的还是线程运行的阻塞函数呢�
 这个主要是为了例如 调用链路上用了10个io操作的库，其中有9个有对应的异步库，但有1个没有对应的异步库，此时不能因为现存的没有人发明这个异步库就不继续写代码罢工了吧。
 ```
 
-
-
 # 4 比较asyncio.run_coroutine_threadsafe 和 run_in_executor区别
 
 ```
@@ -174,6 +173,5 @@ run_in_executor 是在异步环境（被async修饰的异步函数）里面，�
 这个是将 一个concurrent.futures包的future对象 转化为 asyncio包的future对象，
 asyncio包的future对象是一个asyncio包的awaitable对象，所以可以被await，concurrent.futures.Future对象不能被await。
 ```
-
 
 ```

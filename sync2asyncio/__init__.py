@@ -50,6 +50,7 @@ if __name__ == '__main__':
 
     async def enter_fun(xx):  # 入口函数，因为为一旦异步，必须处处异步。不能直接调用block_fun，否则阻塞其他任务。
         await asyncio.sleep(1)  # # 如果你这么写  time.sleep(1)  那就完了个蛋，程序运行完成需要更长的时间。
+        await simple_run_in_executor(time.sleep,1)  # 如果世上没有asyncio.sleep异步函数，那么可以这么做。
         r = await  simple_run_in_executor(block_fun, xx)  # # 如果你这么写  r = block_fun(xx)   那就完了个蛋，程序运行完成需要更长的时间。
         print(r)
         resp = await  simple_run_in_executor(requests.get, url='http://www.baidu.com', timeout=5)
